@@ -1,0 +1,51 @@
+{
+  "name": "macjamf-consultant",
+  "version": "0.1.0",
+  "private": true,
+  "description": "macOS voice-based JAMF troubleshooting consultant with Kibana queries (Electron + React)",
+  "main": "electron/dist/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"vite --config renderer/vite.config.ts\" \"tsc -p electron/tsconfig.json -w\" \"wait-on electron/dist/main.js && cross-env NODE_ENV=development electron .\"",
+    "build:renderer": "vite build --config renderer/vite.config.ts",
+    "build:electron": "tsc -p electron/tsconfig.json",
+    "build": "npm run build:renderer && npm run build:electron",
+    "start": "electron .",
+    "dist": "npm run build && electron-builder",
+    "lint": "echo 'No lint configured'"
+  },
+  "build": {
+    "appId": "com.example.macjamfconsultant",
+    "productName": "Mac JAMF Consultant",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": ["dmg", "zip"],
+      "entitlements": "electron/entitlements.mac.plist",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "This app uses the microphone for real-time troubleshooting.",
+        "NSSpeechRecognitionUsageDescription": "Speech recognition is required for voice consultation.",
+        "NSSupportsAutomaticGraphicsSwitching": true
+      }
+    }
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "systeminformation": "^5.23.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^30.0.9",
+    "electron-builder": "^24.13.3",
+    "wait-on": "^7.2.0",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.8",
+    "@vitejs/plugin-react": "^4.3.3"
+  }
+}
